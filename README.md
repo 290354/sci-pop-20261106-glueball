@@ -4,8 +4,8 @@
 > 2026 年 8 月，第 43 届国际高能物理大会上，BESIII 合作组宣布：X(2370) 的主要成分，是理论预言了近半个世纪的最轻胶球。
 > 胶球里没有夸克，只有胶子——只有"力"。
 
-- **成片**：[`video/episode.mp4`](video/episode.mp4)（1280×720 / 30fps / **8 分 39 秒** / 含中文解说 + 配乐）
-- **字幕**：[`video/episode.srt`](video/episode.srt)（117 条，随片交付；画面内亦已烧录）
+- **成片**：[`video/episode.mp4`](video/episode.mp4)（1280×720 / 30fps / **5 分 6 秒** / 含中文解说 + 配乐）
+- **字幕**：[`video/episode.srt`](video/episode.srt)（62 条，随片交付；画面内亦已烧录）
 - **封面**：[`cover.png`](cover.png)（1280×720）
 - **脚本**：[`script.md`](script.md)｜**选题**：[`选题.md`](选题.md)
 
@@ -14,10 +14,10 @@
 | 项 | 值 |
 |---|---|
 | 分辨率 | 1280×720（横屏 16:9） |
-| 帧率 | 30 fps（15 573 帧） |
-| 时长 | **519.10 秒（8:39.1）** ⚠️ 超出 4:30–5:30 时长窗口，见"已知偏差" |
+| 帧率 | 30 fps（9 179 帧） |
+| 时长 | **305.98 秒（5:06.0）**，落在 4:30–5:30 时长窗口内 |
 | 音轨 | AAC 44.1kHz 立体声：中文解说（edge-tts `zh-CN-YunyangNeural`，语速 −4%）＋ 合成氛围床（−26 dB 量级），整体经 `dynaudnorm` 做响度均衡 |
-| 字幕 | 74 个解说段 → 117 条 SRT（长句按标点二次切分，单条 ≤ 30 字） |
+| 字幕 | 62 个解说段 → 62 条 SRT（长句按标点二次切分，单条 ≤ 30 字） |
 
 ## 制作路线：B —— 类 HTML/Canvas 的"逐帧渲染"（PIL 引擎）
 
@@ -26,7 +26,7 @@
 **实现**（`src/`）：
 
 - `engine.py` —— 纯 PIL 决定性渲染引擎，暴露 `render_at(t)`（t 秒 → 1280×720 帧）。**分镜起止时间直接读 `timeline.json`（解说段起点）**，做到音画严格对齐；所有运动由 `smoothstep / ease-out / back_out` 驱动，星点与粒子用固定 seed，保证同 t 必得同帧。
-- `render.py` —— 5 进程并行逐帧输出 `frames/f%06d.jpg`（15 573 帧，约 3 分 15 秒）。
+- `render.py` —— 5 进程并行逐帧输出 `frames/f%06d.jpg`（9 179 帧，约 1 分 45 秒）。
 - `gen_segs.py` —— 解说词分段表（74 段），每段带屏幕大字 `cap`。
 - `tts.py` —— 逐段 edge-tts 合成（语速 −4%，段间 0.5s 静音），`ffprobe` 取实际时长 → 生成 `timeline.json` 与拼接后的 `audio/voice.*`。
 - `mksubs.py` —— 由 timeline 生成 `video/episode.srt` 与 `src/subs.json`。
@@ -39,9 +39,9 @@
 ```bash
 python3 src/gen_segs.py && python3 src/tts.py && python3 src/mksubs.py && python3 src/bgm.py
 python3 src/render.py frames
-ffmpeg -y -framerate 30 -i frames/f%06d.jpg -i audio/voice.wav -i audio/bgm.wav \
-  -filter_complex "[1:a]volume=1.0[v];[2:a]volume=0.05[b];[v][b]amix=inputs=2:duration=longest:dropout_transition=0,alimiter=limit=0.95,dynaudnorm=f=400:g=5:p=0.9:m=9[a]" \
-  -map 0:v -map "[a]" -c:v libopenh264 -b:v 4200k -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k video/episode.mp4
+ffmpeg -y -framerate 30 -i frames/f%06d.jpg -i audio/voice.mp3 -i audio/bgm.mp3 \
+  -filter_complex "[1:a]volume=1.0,apad[v];[2:a]volume=0.05,apad[b];[v][b]amix=inputs=2:duration=longest:dropout_transition=0,alimiter=limit=0.95,dynaudnorm=f=400:g=5:p=0.9:m=9[a]" \
+  -map 0:v -map "[a]" -c:v libopenh264 -b:v 4200k -pix_fmt yuv420p -r 30 -c:a aac -b:a 160k -t 305.98 video/episode.mp4
 ```
 
 > 本机 ffmpeg 未编译 libx264，改用同属 H.264/AVC 的 `libopenh264`（4.2 Mbps VBR），兼容性与 libx264 等价。
@@ -62,12 +62,19 @@ ffmpeg -y -framerate 30 -i frames/f%06d.jpg -i audio/voice.wav -i audio/bgm.wav 
 
 未触发 L2（无 API key），未降级到 L3。
 
-## 已知偏差与瑕疵
+## 返修记录（2026-11-06）
 
-1. **时长 8:39，超出 4:30–5:30 窗口**。原因：脚本按"每镜 20–40 秒 × 12 镜"设计，实际落成 51 个分镜、74 个解说段；且 edge-tts 实测语速（4.3 字/秒）明显低于预估的 5.5 字/秒，2 214 字只讲出 516 秒的有效语音，段间 0.5s 停顿再叠加 36.5 秒。**这是本次唯一硬性未达标项**，取舍是"内容完整 + 音画对齐"优先于"砍到 5 分钟"（砍需重写脚本 + 重渲染，时间不够）。
-2. `10⁻²³` 这类上标负号在 Noto CJK 中缺字形（会显示豆腐块），已改为中文表述"万亿分之一秒的万亿分之一"。
-3. 配乐是程序合成的 drone 床，不是旋律型 BGM；情绪起伏靠音量与滤波亮度，比较克制。
-4. 画面为抽象几何示意，未使用任何实拍 / 示意素材；粒子形态是"示意"而非真实对撞事件显示。
+1. **时长 8:39 → 5:06**。解说从 2 214 字 / 74 段压到 1 107 字 / 62 段：保留全部论证链（禁闭 → 胶子吃自己 → 打结 → 能量变质量 → 1% vs 99% → 2009 年 X(2370) → 三关证据 → 边界），砍掉重复的转折句和旁白。段间停顿由 0.5s 收到 0.42s。
+2. **分镜表改成数据驱动。** 原来 `SCENES` 手写 `TL[0]`…`TL[73]`，删一句、改一句长度就整片错位，末尾还硬编码了 `TL[73]`。现在 `gen_segs.py` 用 `BLOCK("sc_xxx")` 标注每一场的段落区间并输出 `scenes.json`，`engine.py` 按区间建场景；增删句子不会再错位。
+3. **修掉一处文字重叠**：「更深一层」这条大字压在场景自带的「质子的质量账本」上，标题已下移到 y=470。
+4. **配乐三段按总时长比例切**（原来写死 0–80s / 80–240s / 240s–），缩短后章节不会错位。
+
+## 已知瑕疵
+
+1. `10⁻²³` 这类上标负号在 Noto CJK 中缺字形（会显示豆腐块），已改为中文表述"万亿分之一秒的万亿分之一"。
+2. 配乐是程序合成的 drone 床，不是旋律型 BGM；情绪起伏靠音量与滤波亮度，比较克制。
+3. 画面为抽象几何示意，未使用任何实拍 / 示意素材；粒子形态是"示意"而非真实对撞事件显示。
+4. 压到 5 分钟后，部分转折句被删，节奏比 8 分钟版更紧；完整版论证仍保留在 `script.md` 的长稿里。
 
 ## 选题来源
 
@@ -86,11 +93,11 @@ ffmpeg -y -framerate 30 -i frames/f%06d.jpg -i audio/voice.wav -i audio/bgm.wav 
 
 ```bash
 pip install edge-tts pillow
-python3 src/gen_segs.py        # 写 src/segs.json
+python3 src/gen_segs.py        # 写 src/segs.json 与 src/scenes.json（分镜块 → 段落区间）
 python3 src/tts.py             # 合成 audio/seg_*.mp3 + voice.wav + timeline.json
 python3 src/mksubs.py          # 生成 video/episode.srt
 python3 src/bgm.py             # 合成 audio/bgm.wav
-python3 src/render.py frames   # 逐帧渲染（需 ~1GB 临时空间）
+python3 src/render.py frames   # 逐帧渲染 9 179 帧（需 ~1GB 临时空间）
 python3 src/cover.py           # 生成 cover.png
 # 最后按上文 ffmpeg 命令合成
 ```

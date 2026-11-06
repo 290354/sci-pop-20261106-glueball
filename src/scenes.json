@@ -1,0 +1,212 @@
+[
+ {
+  "key": "sc_open2",
+  "r0": 0,
+  "r1": 1
+ },
+ {
+  "key": "sc_you",
+  "r0": 2,
+  "r1": 4
+ },
+ {
+  "key": "sc_proton",
+  "r0": 5,
+  "r1": 6
+ },
+ {
+  "key": "sc_snap",
+  "r0": 7,
+  "r1": 8
+ },
+ {
+  "key": "sc_more",
+  "r0": 9,
+  "r1": 10
+ },
+ {
+  "key": "sc_gluon_sep",
+  "r0": 11,
+  "r1": 11
+ },
+ {
+  "key": "sc_three_colors",
+  "r0": 12,
+  "r1": 13
+ },
+ {
+  "key": "sc_gluon_self",
+  "r0": 14,
+  "r1": 15
+ },
+ {
+  "key": "sc_knot",
+  "r0": 16,
+  "r1": 16
+ },
+ {
+  "key": "sc_glueball_label",
+  "r0": 17,
+  "r1": 17
+ },
+ {
+  "key": "sc_forty_years",
+  "r0": 18,
+  "r1": 19
+ },
+ {
+  "key": "sc_mass_conservation",
+  "r0": 20,
+  "r1": 21
+ },
+ {
+  "key": "sc_energy_mass",
+  "r0": 22,
+  "r1": 22
+ },
+ {
+  "key": "sc_emc2",
+  "r0": 23,
+  "r1": 23
+ },
+ {
+  "key": "sc_heavier",
+  "r0": 24,
+  "r1": 24
+ },
+ {
+  "key": "sc_quark_1pct",
+  "r0": 25,
+  "r1": 25
+ },
+ {
+  "key": "sc_mass_originates",
+  "r0": 26,
+  "r1": 27
+ },
+ {
+  "key": "sc_bar99",
+  "r0": 28,
+  "r1": 28
+ },
+ {
+  "key": "sc_glue_not_water",
+  "r0": 29,
+  "r1": 30
+ },
+ {
+  "key": "sc_collider",
+  "r0": 31,
+  "r1": 31
+ },
+ {
+  "key": "sc_2009",
+  "r0": 32,
+  "r1": 32
+ },
+ {
+  "key": "sc_noise",
+  "r0": 33,
+  "r1": 33
+ },
+ {
+  "key": "sc_three_checks",
+  "r0": 34,
+  "r1": 36
+ },
+ {
+  "key": "sc_flavor_intro",
+  "r0": 37,
+  "r1": 37
+ },
+ {
+  "key": "sc_check1_mass",
+  "r0": 38,
+  "r1": 38
+ },
+ {
+  "key": "sc_check2_spin",
+  "r0": 39,
+  "r1": 39
+ },
+ {
+  "key": "sc_hundred_billion",
+  "r0": 40,
+  "r1": 42
+ },
+ {
+  "key": "sc_2011_to_2026",
+  "r0": 43,
+  "r1": 43
+ },
+ {
+  "key": "sc_special",
+  "r0": 44,
+  "r1": 44
+ },
+ {
+  "key": "sc_confirmed",
+  "r0": 45,
+  "r1": 45
+ },
+ {
+  "key": "sc_2p5",
+  "r0": 46,
+  "r1": 47
+ },
+ {
+  "key": "sc_not_pure",
+  "r0": 48,
+  "r1": 49
+ },
+ {
+  "key": "sc_model",
+  "r0": 50,
+  "r1": 51
+ },
+ {
+  "key": "sc_moment",
+  "r0": 52,
+  "r1": 52
+ },
+ {
+  "key": "sc_borders",
+  "r0": 53,
+  "r1": 53
+ },
+ {
+  "key": "sc_border_value",
+  "r0": 54,
+  "r1": 54
+ },
+ {
+  "key": "sc_back_zero",
+  "r0": 55,
+  "r1": 55
+ },
+ {
+  "key": "sc_particle_list",
+  "r0": 56,
+  "r1": 56
+ },
+ {
+  "key": "sc_not_weird",
+  "r0": 57,
+  "r1": 58
+ },
+ {
+  "key": "sc_knot_final",
+  "r0": 59,
+  "r1": 59
+ },
+ {
+  "key": "sc_knot_small",
+  "r0": 60,
+  "r1": 60
+ },
+ {
+  "key": "sc_end",
+  "r0": 61,
+  "r1": 61
+ }
+]

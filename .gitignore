@@ -1,0 +1,5 @@
+frames/
+__pycache__/
+*.pyc
+*.wav
+audio/_list*.txt

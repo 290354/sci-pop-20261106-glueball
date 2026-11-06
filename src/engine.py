@@ -632,7 +632,7 @@ def sc_quark_1pct(img, d, t, u):
     tc(d, x1 - 40, y + 74, "胶子场能量 99%", F("sansb", 26), YEL, smooth((u - 0.35) / 0.3), anchor="rm")
     if u > 0.55:
         a3 = smooth((u - 0.55) / 0.3)
-        tc(d, W / 2, 220, "质子的质量账本", F("serifb", 40), INK, a3, anchor="mm")
+        tc(d, W / 2, 470, "质子的质量账本", F("serifb", 40), INK, a3, anchor="mm")
 
 def sc_mass_originates(img, d, t, u):
     """15: 99% 铺满屏幕，人形由能量团组成"""
@@ -1238,59 +1238,35 @@ def sc_knot_small(img, d, t, u):
             line(d, pts[j], pts[j + 1], mixc(YEL, BLUE, i / 2), 3, pp)
     glow(img, cx, cy, 10, INK, pp)
 
-SCENES = [
-    (0.0, TL[0]["start"], sc_open1),
-    (TL[0]["start"], TL[1]["start"], sc_open2),
-    (TL[1]["start"], TL[2]["start"], sc_open2),
-    (TL[2]["start"], TL[3]["start"], sc_you),
-    (TL[3]["start"], TL[4]["start"], sc_you),
-    (TL[4]["start"], TL[6]["start"], sc_proton),
-    (TL[6]["start"], TL[7]["start"], sc_proton),
-    (TL[7]["start"], TL[8]["start"], sc_snap),
-    (TL[8]["start"], TL[9]["start"], sc_snap),
-    (TL[9]["start"], TL[11]["start"], sc_more),
-    (TL[11]["start"], TL[12]["start"], sc_more),
-    (TL[12]["start"], TL[14]["start"], sc_gluon_sep),
-    (TL[14]["start"], TL[15]["start"], sc_gluon_sep),
-    (TL[15]["start"], TL[17]["start"], sc_three_colors),
-    (TL[17]["start"], TL[19]["start"], sc_gluon_self),
-    (TL[19]["start"], TL[20]["start"], sc_gluon_self),
-    (TL[20]["start"], TL[21]["start"], sc_knot),
-    (TL[21]["start"], TL[23]["start"], sc_glueball_label),
-    (TL[23]["start"], TL[25]["start"], sc_forty_years),
-    (TL[25]["start"], TL[27]["start"], sc_mass_conservation),
-    (TL[27]["start"], TL[29]["start"], sc_energy_mass),
-    (TL[29]["start"], TL[30]["start"], sc_emc2),
-    (TL[30]["start"], TL[31]["start"], sc_heavier),
-    (TL[31]["start"], TL[33]["start"], sc_quark_1pct),
-    (TL[33]["start"], TL[36]["start"], sc_mass_originates),
-    (TL[36]["start"], TL[37]["start"], sc_bar99),
-    (TL[37]["start"], TL[38]["start"], sc_bar99),
-    (TL[38]["start"], TL[40]["start"], sc_glue_not_water),
-    (TL[40]["start"], TL[42]["start"], sc_collider),
-    (TL[42]["start"], TL[44]["start"], sc_2009),
-    (TL[44]["start"], TL[45]["start"], sc_noise),
-    (TL[45]["start"], TL[48]["start"], sc_three_checks),
-    (TL[48]["start"], TL[49]["start"], sc_flavor_intro),
-    (TL[49]["start"], TL[50]["start"], sc_check1_mass),
-    (TL[50]["start"], TL[51]["start"], sc_check2_spin),
-    (TL[51]["start"], TL[54]["start"], sc_hundred_billion),
-    (TL[54]["start"], TL[56]["start"], sc_2011_to_2026),
-    (TL[56]["start"], TL[58]["start"], sc_special),
-    (TL[58]["start"], TL[59]["start"], sc_confirmed),
-    (TL[59]["start"], TL[61]["start"], sc_2p5),
-    (TL[61]["start"], TL[63]["start"], sc_not_pure),
-    (TL[63]["start"], TL[65]["start"], sc_model),
-    (TL[65]["start"], TL[66]["start"], sc_moment),
-    (TL[66]["start"], TL[67]["start"], sc_borders),
-    (TL[67]["start"], TL[68]["start"], sc_border_value),
-    (TL[68]["start"], TL[69]["start"], sc_back_zero),
-    (TL[69]["start"], TL[70]["start"], sc_particle_list),
-    (TL[70]["start"], TL[72]["start"], sc_not_weird),
-    (TL[72]["start"], TL[73]["start"], sc_knot_final),
-    (TL[73]["start"], TL[73]["start"] + TL[73]["dur"] + 1.2, sc_knot_small),
-    (TL[73]["start"] + TL[73]["dur"] + 1.2, TOTAL + 1, sc_end),
-]
+_SCENE_FN = {
+    "sc_open1": sc_open1, "sc_open2": sc_open2, "sc_you": sc_you, "sc_proton": sc_proton,
+    "sc_snap": sc_snap, "sc_more": sc_more, "sc_gluon_sep": sc_gluon_sep,
+    "sc_three_colors": sc_three_colors, "sc_gluon_self": sc_gluon_self, "sc_knot": sc_knot,
+    "sc_glueball_label": sc_glueball_label, "sc_forty_years": sc_forty_years,
+    "sc_mass_conservation": sc_mass_conservation, "sc_energy_mass": sc_energy_mass,
+    "sc_emc2": sc_emc2, "sc_heavier": sc_heavier, "sc_quark_1pct": sc_quark_1pct,
+    "sc_mass_originates": sc_mass_originates, "sc_bar99": sc_bar99,
+    "sc_glue_not_water": sc_glue_not_water, "sc_collider": sc_collider, "sc_2009": sc_2009,
+    "sc_noise": sc_noise, "sc_three_checks": sc_three_checks, "sc_flavor_intro": sc_flavor_intro,
+    "sc_check1_mass": sc_check1_mass, "sc_check2_spin": sc_check2_spin,
+    "sc_hundred_billion": sc_hundred_billion, "sc_2011_to_2026": sc_2011_to_2026,
+    "sc_special": sc_special, "sc_confirmed": sc_confirmed, "sc_2p5": sc_2p5,
+    "sc_not_pure": sc_not_pure, "sc_model": sc_model, "sc_moment": sc_moment,
+    "sc_borders": sc_borders, "sc_border_value": sc_border_value, "sc_back_zero": sc_back_zero,
+    "sc_particle_list": sc_particle_list, "sc_not_weird": sc_not_weird,
+    "sc_knot_final": sc_knot_final, "sc_knot_small": sc_knot_small, "sc_end": sc_end,
+}
+
+# 分镜表由 src/scenes.json 驱动（gen_segs.py 生成），不再手写下标。
+# 因此增删解说句、调整句子长短，都不会再让画面和解说错位。
+_PLAN = json.load(open(os.path.join(HERE, "scenes.json"), encoding="utf-8"))
+SCENES = []
+for _k, _b in enumerate(_PLAN):
+    _t0 = TL[_b["r0"]]["start"] if _b["r0"] > 0 else 0.0
+    _t1 = TL[_PLAN[_k + 1]["r0"]]["start"] if _k + 1 < len(_PLAN) else TOTAL + 1
+    SCENES.append((_t0, _t1, _SCENE_FN[_b["key"]]))
+# 从「四十年前」这一场开始加顶部/底部遮罩，给大字和字幕让位
+MASK_T = next((s[0] for s in SCENES if s[2] is sc_forty_years), 0.0)
 
 def fade(img, a):
     if a >= 0.999:
@@ -1308,7 +1284,7 @@ def render_at(t):
     u = clamp((t - t0) / max(t1 - t0, 0.01))
     img = Image.new("RGB", (W, H), BG)
     d = ImageDraw.Draw(img, "RGBA")
-    if t0 >= TL[23]["start"]:
+    if t0 >= MASK_T:
         hl(img, 0, 170, W, 60)
         hl(img, 0, 600, W, 120)
     fn(img, d, t, u)

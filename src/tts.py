@@ -2,7 +2,7 @@ import asyncio, edge_tts, json, subprocess, os
 
 segs = json.load(open("src/segs.json"))
 VOICE = os.environ.get("VOICE", "zh-CN-YunxiNeural")
-GAP = 0.5
+GAP = 0.42
 
 async def synth(text, out):
     if os.path.exists(out) and os.path.getsize(out) > 800:
